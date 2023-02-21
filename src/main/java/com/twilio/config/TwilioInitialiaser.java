@@ -14,6 +14,7 @@ public class TwilioInitialiaser {
 
     @PostConstruct
     public void initTwilio() {
-        Twilio.init(twilioAccountDetails.getAuthToken(), twilioAccountDetails.getAccountSid());
+
+        Twilio.init(twilioAccountDetails.getAccountSid(), twilioAccountDetails.getAuthToken());
     }
 }
