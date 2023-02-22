@@ -50,14 +50,19 @@ public class TwilioService {
                     .otpStatus(OtpStatus.FAILED).message(exception.getMessage())
                     .build());
         }
+        System.out.println(userOtpMap);
         return Mono.just(passwordResetResponseDto);
     }
 
     public Mono<String> validateOtp(String userName, String userInputOtp) {
-        if (userInputOtp.equals(String.valueOf(userOtpMap.containsKey(userName)))) {
-            userOtpMap.remove(userName);
-            return Mono.just("Valid OTP please enter new password!");
+        String otp = userOtpMap.get(userName);
+        if (otp == null) {
+            return Mono.error(new IllegalArgumentException("No OTP request found for user " + userName));
         }
-        return Mono.error(new IllegalArgumentException("Invalid otp please retry !"));
+        if (otp.equals(userInputOtp)) {
+            userOtpMap.remove(userName);
+            return Mono.just("Valid OTP, please enter new password!");
+        }
+        return Mono.error(new IllegalArgumentException("Invalid OTP, please retry!"));
     }
 }
