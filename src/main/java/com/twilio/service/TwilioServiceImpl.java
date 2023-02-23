@@ -1,5 +1,6 @@
 package com.twilio.service;
 
+import com.twilio.exceptions.IllegalArgumentException;
 import com.twilio.models.PasswordResetRequestDto;
 import com.twilio.models.PasswordResetResponseDto;
 import com.twilio.models.TwilioAccountDetails;
@@ -52,7 +53,7 @@ public class TwilioServiceImpl implements TwilioService {
                     .otpStatus(OtpStatus.FAILED).message(exception.getMessage())
                     .build());
         }
-        log.info(userOtpMap.get(passwordResetRequestDto.getUserName()));
+        log.info("user details found : {}", userOtpMap.toString());
         return Mono.just(passwordResetResponseDto);
     }
 
@@ -63,8 +64,8 @@ public class TwilioServiceImpl implements TwilioService {
         }
         if (otp.equals(userInputOtp)) {
             userOtpMap.remove(userName);
-            return Mono.just("Valid OTP, please enter new password!");
+            return Mono.just("Valid OTP, please proceed further..");
         }
-        return Mono.error(new IllegalArgumentException("Invalid OTP, please retry!"));
+        return Mono.error(new IllegalArgumentException("INVALID_OTP, please retry!"));
     }
 }
