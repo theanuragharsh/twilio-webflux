@@ -42,6 +42,7 @@ public class TwilioServiceImpl implements TwilioService {
             String otpMessage = "Dear customer otp for resetting your password is: " + otp;
             Message.creator(receiver, sender, otpMessage)
                     .create();
+
             passwordResetResponseDto = PasswordResetResponseDto.builder()
                     .otpStatus(OtpStatus.DELIVERED)
                     .message(otpMessage)
