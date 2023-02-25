@@ -2,6 +2,7 @@ package com.twilio.controller;
 
 import com.twilio.models.PasswordResetRequestDto;
 import com.twilio.models.PasswordResetResponseDto;
+import com.twilio.models.PasswordResetVerifyOtpDto;
 import com.twilio.service.TwilioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class TwilioOtpController {
     }
 
     @PostMapping("/otp/verify")
-    public Mono<String> validateOtp(@RequestBody PasswordResetRequestDto passwordResetRequestDto) {
-        return twilioService.validateOtp(passwordResetRequestDto.getUserName(), passwordResetRequestDto.getOtp());
+    public Mono<String> validateOtp(@RequestBody PasswordResetVerifyOtpDto passwordResetVerifyOtpDto) {
+        return twilioService.validateOtp(passwordResetVerifyOtpDto);
     }
 }

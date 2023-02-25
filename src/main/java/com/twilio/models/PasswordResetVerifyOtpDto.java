@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PasswordResetRequestDto {
-    private String phoneNumber;
+public class PasswordResetVerifyOtpDto {
     private String userName;
+    private String otp;
 }

@@ -2,11 +2,12 @@ package com.twilio.service;
 
 import com.twilio.models.PasswordResetRequestDto;
 import com.twilio.models.PasswordResetResponseDto;
+import com.twilio.models.PasswordResetVerifyOtpDto;
 import reactor.core.publisher.Mono;
 
 public interface TwilioService {
 
-    public Mono<PasswordResetResponseDto> sendOtp(PasswordResetRequestDto passwordResetRequestDto);
+    Mono<PasswordResetResponseDto> sendOtp(PasswordResetRequestDto passwordResetRequestDto);
 
-    public Mono<String> validateOtp(String userName, String userInputOtp);
+    Mono<String> validateOtp(PasswordResetVerifyOtpDto passwordResetVerifyOtpDto);
 }

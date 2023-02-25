@@ -3,6 +3,7 @@ package com.twilio.service;
 import com.twilio.exceptions.IllegalArgumentException;
 import com.twilio.models.PasswordResetRequestDto;
 import com.twilio.models.PasswordResetResponseDto;
+import com.twilio.models.PasswordResetVerifyOtpDto;
 import com.twilio.models.TwilioAccountDetails;
 import com.twilio.models.enums.OtpStatus;
 import com.twilio.rest.api.v2010.account.Message;
@@ -58,13 +59,14 @@ public class TwilioServiceImpl implements TwilioService {
         return Mono.just(passwordResetResponseDto);
     }
 
-    public Mono<String> validateOtp(String userName, String userInputOtp) {
-        String otp = userOtpMap.get(userName);
-        if (otp == null) {
-            return Mono.error(new IllegalArgumentException("No OTP request found for user " + userName));
+    public Mono<String> validateOtp(PasswordResetVerifyOtpDto passwordResetVerifyOtpDto) {
+        String generatedOtp = userOtpMap.get(passwordResetVerifyOtpDto.getUserName());
+        String userInputOtp = passwordResetVerifyOtpDto.getOtp();
+        if (generatedOtp == null) {
+            return Mono.error(new IllegalArgumentException("No OTP request found for user " + passwordResetVerifyOtpDto.getUserName()));
         }
-        if (otp.equals(userInputOtp)) {
-            userOtpMap.remove(userName);
+        if (generatedOtp.equals(userInputOtp)) {
+            userOtpMap.remove(passwordResetVerifyOtpDto.getUserName());
             return Mono.just("Valid OTP, please proceed further..");
         }
         return Mono.error(new IllegalArgumentException("INVALID_OTP, please retry!"));

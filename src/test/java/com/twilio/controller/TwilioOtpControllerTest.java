@@ -32,7 +32,7 @@ class TwilioOtpControllerTest {
     private WebTestClient webTestClient;
 
     private final Instant now = Instant.now().truncatedTo(ChronoUnit.MINUTES);
-    private final PasswordResetRequestDto passwordResetRequestDto = PasswordResetRequestDto.builder().userName("Anurag").phoneNumber("+91 7979775728").otp("444444").build();
+    private final PasswordResetRequestDto passwordResetRequestDto = PasswordResetRequestDto.builder().userName("Anurag").phoneNumber("+91 7979775728").build();
     private final PasswordResetResponseDto passwordResetResponseDto = PasswordResetResponseDto.builder()
             .message("Dear customer otp for resetting your password is: 320750").otpStatus(OtpStatus.DELIVERED)
             .build();
@@ -40,12 +40,13 @@ class TwilioOtpControllerTest {
     @Test
     void sendOtpTest() {
         when(twilioService.sendOtp(passwordResetRequestDto)).thenReturn(Mono.just(new PasswordResetResponseDto()));
-        webTestClient.post().uri("/otp/verify").bodyValue(passwordResetRequestDto)
+        webTestClient.post().uri("/otp/send").bodyValue(passwordResetRequestDto)
                 .exchange()
                 .expectStatus()
                 .is2xxSuccessful()
                 .returnResult(PasswordResetResponseDto.class)
                 .getResponseBody();
     }
+
 
 }
