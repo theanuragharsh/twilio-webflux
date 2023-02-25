@@ -59,7 +59,7 @@ public class TwilioServiceImpl implements TwilioService {
         return Mono.just(passwordResetResponseDto);
     }
 
-    public Mono<String> validateOtp(PasswordResetVerifyOtpDto passwordResetVerifyOtpDto) {
+    public Mono<String> verifyOtp(PasswordResetVerifyOtpDto passwordResetVerifyOtpDto) {
         String generatedOtp = userOtpMap.get(passwordResetVerifyOtpDto.getUserName());
         String userInputOtp = passwordResetVerifyOtpDto.getOtp();
         if (generatedOtp == null) {

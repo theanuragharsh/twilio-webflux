@@ -9,5 +9,5 @@ public interface TwilioService {
 
     Mono<PasswordResetResponseDto> sendOtp(PasswordResetRequestDto passwordResetRequestDto);
 
-    Mono<String> validateOtp(PasswordResetVerifyOtpDto passwordResetVerifyOtpDto);
+    Mono<String> verifyOtp(PasswordResetVerifyOtpDto passwordResetVerifyOtpDto);
 }

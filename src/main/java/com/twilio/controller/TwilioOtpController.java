@@ -18,12 +18,11 @@ public class TwilioOtpController {
 
     @PostMapping("/otp/send")
     public Mono<PasswordResetResponseDto> sendOtp(@RequestBody PasswordResetRequestDto passwordResetRequestDto) {
-        return twilioService
-                .sendOtp(passwordResetRequestDto);
+        return twilioService.sendOtp(passwordResetRequestDto);
     }
 
     @PostMapping("/otp/verify")
     public Mono<String> validateOtp(@RequestBody PasswordResetVerifyOtpDto passwordResetVerifyOtpDto) {
-        return twilioService.validateOtp(passwordResetVerifyOtpDto);
+        return twilioService.verifyOtp(passwordResetVerifyOtpDto);
     }
 }
