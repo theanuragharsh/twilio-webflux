@@ -37,7 +37,7 @@ class TwilioOtpControllerTest {
             .build();
 
     @Test
-    void sendOtpTest() {
+    void testSendOtp() {
         when(twilioService.sendOtp(passwordResetRequestDto)).thenReturn(Mono.just(new PasswordResetResponseDto()));
         webTestClient.post().uri("/otp/send").bodyValue(passwordResetRequestDto)
                 .exchange()
@@ -48,7 +48,7 @@ class TwilioOtpControllerTest {
     }
 
     @Test
-    void verifyOtpTest() {
+    void testVerifyOtp() {
         when(twilioService.verifyOtp(passwordResetVerifyOtpDto)).thenReturn(Mono.just("Valid OTP, please proceed further.."));
         webTestClient.post().uri("/otp/verify")
                 .accept(MediaType.APPLICATION_JSON)
@@ -59,4 +59,18 @@ class TwilioOtpControllerTest {
                 .expectBody(String.class)
                 .isEqualTo("Valid OTP, please proceed further..");
     }
+
+/*    @Test
+    void testSendOtpWhenAuthenticationFails() {
+        when(twilioService.sendOtp(passwordResetRequestDto)).thenReturn(Mono.just(new PasswordResetResponseDto()));
+
+        webTestClient.post().uri("/otp/send")
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(passwordResetRequestDto)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBody(PasswordResetResponseDto.class)
+                .isEqualTo(PasswordResetResponseDto.builder().otpStatus(OtpStatus.FAILED).message("Authenticate").build());
+    }*/
 }
